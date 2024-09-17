@@ -1,5 +1,10 @@
-function App() {
-  return <div className='flex items-center justify-center'>deneme</div>
-}
+import HomeLayout from './pages/HomeLayout'
 
+const App = () => {
+  return (
+    <div>
+      <HomeLayout />
+    </div>
+  )
+}
 export default App
