@@ -1,6 +1,28 @@
 import { FaPlane } from 'react-icons/fa'
-
 import SearchParam from './SearchParam'
+import axios from 'axios'
+
+const handleShowFlight = async () => {
+  try {
+    const response = await axios.get('/api/public-flights/flights', {
+      params: {
+        scheduleDate: '2024-09-17',
+        flightDirection: 'A',
+      },
+      headers: {
+        ResourceVersion: 'v4',
+        app_id: import.meta.env.VITE_APP_ID,
+        app_key: import.meta.env.VITE_APP_KEY,
+        Accept: 'application/json',
+      },
+    })
+    // Handle the response
+    console.log(response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching flight data:', error)
+  }
+}
 
 const Search = () => {
   return (
@@ -24,7 +46,7 @@ const Search = () => {
         <SearchParam />
       </div>
       <div className='h-[40px] w-28 bg-[#4A1C97] text-white font-semibold rounded-lg ml-5 mt-5 items-center justify-center flex'>
-        <button>Show flights</button>
+        <button onClick={handleShowFlight}>Show flights</button>
       </div>
     </div>
   )

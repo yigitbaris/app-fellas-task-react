@@ -11,7 +11,7 @@ const Navbar = () => {
         <Logo />
       </div>
       <div className='flex items-center gap-6'>
-        <Link text={'Deals'} icon={ImPriceTag} color={'#4A1C97'} />
+        <Link text={'Deals'} icon={ImPriceTag} flip={'yes'} color={'#4A1C97'} />
         <Link text={'Discover'} icon={FaGlobeAmericas} color={'#4A1C97'} />
         <Profile />
       </div>
