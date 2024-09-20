@@ -5,6 +5,7 @@ import Search from '../components/home/Search'
 import SideCartContainer from '../components/home/SideCartContainer'
 import SortList from '../components/home/SortList'
 import axios from 'axios'
+import { Outlet } from 'react-router-dom'
 
 const HomeLayout = () => {
   const [flightData, setFlightData] = useState([])
@@ -13,7 +14,7 @@ const HomeLayout = () => {
     const apiCall = async () => {
       try {
         const response = await axios.get('/api/public-flights/flights', {
-          params: { page: 2 },
+          params: { page: 1 },
           headers: {
             ResourceVersion: 'v4',
             app_id: import.meta.env.VITE_APP_ID,
@@ -25,11 +26,9 @@ const HomeLayout = () => {
         // Process flight data once fetched
         const filteredFlights = response.data.flights.map((flight) => ({
           flightId: flight.id,
-          flightDeparture: flight.scheduleDateTime,
+          flightArrival: flight.scheduleDateTime,
           flightNumber: flight.flightNumber,
           flightName: flight.flightName,
-          actualLandingTime: flight.actualLandingTime,
-          estimatedLandingTime: flight.estimatedLandingTime,
           flightRoute: flight.route?.destinations || [], // Safe access to flight.route.destinations
           flightDirection: flight?.flightDirection, // Provide a fallback value for flightDirection
         }))
