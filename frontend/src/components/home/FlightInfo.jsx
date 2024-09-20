@@ -3,21 +3,70 @@ import { TbPlaneArrival } from 'react-icons/tb'
 import { IoIosAirplane } from 'react-icons/io'
 import Link from './Link'
 
-const FlightInfo = () => {
+const FlightInfo = ({ flightData }) => {
+  const {
+    flightNumber,
+    flightName,
+    actualLandingTime,
+    estimatedLandingTime,
+    flightRoute,
+    flightDirection,
+    flightId,
+    flightDeparture,
+  } = flightData
+  console.log(
+    // flightNumber,
+    // flightName,
+    // actualLandingTime,
+    // estimatedLandingTime,
+    // 'estimatedLandingTime',
+    flightRoute
+    // flightDirection,
+    // flightId,
+    // flightDeparture,
+    // 'flightDeparture'
+  )
+
+  //tarihleri işe yarar formata çeviren fonksiyon
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true, // Ensures the time is displayed in AM/PM format
+    })
+  }
+
+  //yolculuğun süresini hesaplayan fonksiyon
+  const calculateTravelTime = (start, end) => {
+    const startDate = new Date(start)
+    const endDate = new Date(end)
+
+    const diffInMs = Math.abs(endDate - startDate) // Get the difference in milliseconds
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60)) // Convert to hours
+    const diffInMinutes = Math.floor(
+      (diffInMs % (1000 * 60 * 60)) / (1000 * 60)
+    ) // Get remaining minutes
+
+    return `${diffInHours}h ${diffInMinutes}m`
+  }
+
   return (
     <div className='w-full h-1/2'>
       <div className=' bg-white   rounded-tl-2xl rounded-tr-2xl rounded-br-2xl'>
         <div className='font-semibold px-8 pt-4 text-lg mb-4'>
-          Milano - Madrid
+          Amsterdam - Madrid
         </div>
         <div className='flex items-center justify-between mb-5 px-8'>
           <div>
             <div className='text-sm text-slate-600'>
               <Link icon={TbPlaneDeparture} text={'Departure'} />
             </div>
-            <div className='text-xl font-bold mt-1'>7:30 AM</div>
+            <div className='text-xl font-bold mt-1'>
+              {formatDate(flightDeparture)}
+            </div>
             <div className='text-base text-slate-600 font-medium'>
-              Airport: MXP
+              Airport: AMS
             </div>
           </div>
           <div className='border border-slate-400 w-[90px] h-[3px] rounded-2xl bg-slate-400'></div>
@@ -27,7 +76,8 @@ const FlightInfo = () => {
               <IoIosAirplane size={30} color='#4A1C97' />
             </div>
             <div className='text-base text-slate-600 font-medium mt-2'>
-              2h 25m(Nonstop)
+              {calculateTravelTime(flightDeparture, estimatedLandingTime)}
+              (Nonstop)
             </div>
           </div>
           <div className='border border-slate-400 w-[90px] h-[3px] rounded-2xl bg-slate-400'></div>
@@ -37,9 +87,11 @@ const FlightInfo = () => {
                 <Link icon={TbPlaneArrival} text={'Arrival'} />
               </div>
             </div>
-            <div className='text-xl font-bold mt-1'>9:55 AM</div>
+            <div className='text-xl font-bold mt-1'>
+              {formatDate(actualLandingTime)}
+            </div>
             <div className='text-base text-slate-600 font-medium'>
-              Airport: MAD
+              Airport: {flightRoute}
             </div>
           </div>
         </div>
