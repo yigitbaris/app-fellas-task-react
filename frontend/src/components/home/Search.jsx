@@ -4,13 +4,7 @@ import axios from 'axios'
 import { useState } from 'react'
 
 const Search = () => {
-  const [searchParams, setSearchParams] = useState({
-    departureAirport: 'AMS',
-    arrivalAirport: 'JFK',
-    fromDate: '2024-09-17',
-    toDate: '2024-09-17',
-  })
-
+  //show flight a tıklanıldığında api den 20 adet flight listeler
   const handleShowFlight = async () => {
     try {
       const response = await axios.get('/api/public-flights/flights', {
@@ -30,7 +24,7 @@ const Search = () => {
   }
 
   return (
-    <div className='w-[1500px] h-[220px] ml-7 rounded-2xl bg-white'>
+    <div className=' w-full h-1/4 ml-7 rounded-2xl bg-white'>
       <div className='flex justify-between pt-2'>
         <div className='flex mt-4 ml-5 gap-2 items-center '>
           <FaPlane size={20} />
@@ -46,7 +40,7 @@ const Search = () => {
         </div>
       </div>
       <div className='flex mt-8'>
-        <SearchParam onSearchParamsChange={setSearchParams} />
+        <SearchParam />
       </div>
       <div className='h-[40px] w-28 bg-[#4A1C97] text-white font-semibold rounded-lg ml-5 mt-5 items-center justify-center flex'>
         <button onClick={handleShowFlight}>Show flights</button>

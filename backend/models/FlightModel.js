@@ -2,10 +2,10 @@ import mongoose from 'mongoose'
 
 const FlightSchema = new mongoose.Schema(
   {
-    id: String,
+    flightId: String,
     flightName: String,
+    flightNumber: String,
     flightArrival: String,
-    flightDeparture: String,
     flightRoute: [String],
     flightDirection: String,
   },

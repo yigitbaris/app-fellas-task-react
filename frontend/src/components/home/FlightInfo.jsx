@@ -4,8 +4,20 @@ import { IoIosAirplane } from 'react-icons/io'
 import Link from './Link'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import axios from 'axios'
 const FlightInfo = ({ flightData }) => {
+  const [flightInfo, setFlightInfo] = useState({
+    flightNumber: flightData.flightNumber,
+    flightName: flightData.flightName,
+    flightArrival: flightData.flightArrival,
+    flightRoute: flightData.flightRoute,
+    flightDirection: flightData.flightDirection,
+    flightId: flightData.flightId,
+  })
+
   const navigate = useNavigate()
+
   const {
     flightNumber,
     flightName,
@@ -15,30 +27,34 @@ const FlightInfo = ({ flightData }) => {
     flightId,
   } = flightData
 
-  const handleFlightButtonClick = () => {
-    toast.success('Job added successfully')
+  // Handle button click
+  const handleFlightButtonClick = async () => {
+    try {
+      const response = await axios.post(
+        '/local-api/flight/create-flight',
+        flightInfo
+      )
+    } catch (error) {}
+    toast.success('Flight booked successfully')
     navigate('/flight') // Use navigate instead of redirect
   }
 
-  //tarihleri işe yarar formata çeviren fonksiyon
+  // Format date function
   const formatDate = (dateString) => {
-    if (dateString === undefined) {
-      return dateString // Return undefined if it is undefined
-    }
+    if (!dateString) return dateString // Handle undefined or null dates
     const date = new Date(dateString)
     return date.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: 'numeric',
-      hour12: true, // Ensures the time is displayed in AM/PM format
-      timeZone: 'Europe/Amsterdam', // Replace with the appropriate timezone
+      hour12: true,
+      timeZone: 'Europe/Amsterdam', // Replace with appropriate timezone
     })
   }
 
-  //yolculuğun süresini hesaplayan fonksiyon
+  // Calculate travel time function
   const calculateTravelTime = (start, end) => {
     const startDate = new Date(start)
     const endDate = new Date(end)
-
     const diffInMs = Math.abs(endDate - startDate) // Get the difference in milliseconds
     const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60)) // Convert to hours
     const diffInMinutes = Math.floor(
@@ -48,7 +64,7 @@ const FlightInfo = ({ flightData }) => {
     return `${diffInHours}h ${diffInMinutes}m`
   }
 
-  // API da bulunmadığı için kalkış zamanı
+  // Generate departure time
   const getDepartureTime = (dateString) => {
     const arrivalDate = new Date(dateString)
     const earlierDate = new Date(arrivalDate)
@@ -57,11 +73,11 @@ const FlightInfo = ({ flightData }) => {
     return earlierDate
   }
 
-  const flightDeparture = getDepartureTime(flightArrival)
+  const flightDepartureFromArrival = getDepartureTime(flightArrival)
 
   return (
     <div className='w-full h-1/2'>
-      <div className=' bg-white   rounded-tl-2xl rounded-tr-2xl rounded-br-2xl'>
+      <div className='bg-white rounded-tl-2xl rounded-tr-2xl rounded-br-2xl'>
         <div className='font-semibold px-8 pt-4 text-lg mb-4'>
           Madrid - Amsterdam
         </div>
@@ -71,11 +87,7 @@ const FlightInfo = ({ flightData }) => {
               <Link icon={TbPlaneDeparture} text={'Departure'} />
             </div>
             <div className='text-xl font-bold mt-1'>
-              {/* {' '}
-              {formatDate(estimatedLandingTime)
-                ? formatDate(estimatedLandingTime)
-                : 'deneme'} */}
-              {formatDate(flightDeparture)}
+              {formatDate(flightDepartureFromArrival)}
             </div>
             <div className='text-base text-slate-600 font-medium'>
               Airport: {flightRoute}
@@ -84,11 +96,12 @@ const FlightInfo = ({ flightData }) => {
           <div className='border border-slate-400 w-[90px] h-[3px] rounded-2xl bg-slate-400'></div>
           <div className='flex flex-col items-center justify-center'>
             <img src='/alitalia.png' alt='logo' className='w-12' />
-            <div className='mt-2 '>
+            <div className='mt-2'>
               <IoIosAirplane size={30} color='#4A1C97' />
             </div>
             <div className='text-base text-slate-600 font-medium mt-2'>
-              {calculateTravelTime(flightDeparture, flightArrival)}
+              {calculateTravelTime(flightDepartureFromArrival, flightArrival)}
+              {/*dönen sonuçlara göre değişen yazılar*/}
               (Nonstop)
             </div>
           </div>
@@ -109,7 +122,7 @@ const FlightInfo = ({ flightData }) => {
         </div>
         <div className='flex items-center justify-between'>
           <div className='ml-7'>
-            <div className='text-xl font-bold text-[#4A1C97] '>Price :$200</div>
+            <div className='text-xl font-bold text-[#4A1C97]'>Price: $200</div>
             <div className='text-sm text-slate-500 font-semibold'>
               Round Trip
             </div>

@@ -5,7 +5,6 @@ import Search from '../components/home/Search'
 import SideCartContainer from '../components/home/SideCartContainer'
 import SortList from '../components/home/SortList'
 import axios from 'axios'
-import { Outlet } from 'react-router-dom'
 
 const HomeLayout = () => {
   const [flightData, setFlightData] = useState([])
@@ -43,7 +42,7 @@ const HomeLayout = () => {
   }, []) // Empty dependency array to run the effect only once
 
   return (
-    <div className=' h-full bg-[#F5F3F7]'>
+    <div className=' h-full w-full bg-[#F5F3F7]'>
       <Navbar />
       <div className='flex  justify-between'>
         <div>

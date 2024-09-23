@@ -3,7 +3,7 @@ const Link = ({ icon: Icon, text, color, flip }) => {
     <div className='flex items-center gap-2'>
       {/* Render the icon component */}
       <Icon
-        style={flip === 'yes' && { transform: 'scaleX(-1)' }}
+        style={flip === 'yes' && { transform: 'scaleX(-1)' }} //iconun tersi yok ise ters çevirme imkanı sağlar
         color={color}
         size={20}
       />
