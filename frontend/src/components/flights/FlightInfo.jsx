@@ -30,8 +30,11 @@ const FlightInfo = ({
       const response = await axios.delete('/local-api/flight/delete-flight', {
         data: { _id }, // Send flightId in the request body
       })
-      toast.success('Flight deleted successfully')
-      navigate(0) //sayfayı yenile
+      toast.success('Flight deleted successfully') // Show toast message first
+
+      setTimeout(() => {
+        navigate(0) // Refresh the page after 1 second
+      }, 1000) // Delay the navigation so the user can see the toast
     } catch (error) {
       console.error('Failed to delete flight', error)
       toast.error('Failed to delete flight')

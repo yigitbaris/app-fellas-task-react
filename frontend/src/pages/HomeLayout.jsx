@@ -70,7 +70,7 @@ const HomeLayout = () => {
   }, [sortParams, flightData]) // Runs when sortParams or flightData changes
 
   return (
-    <div className=' h-full w-full bg-[#F5F3F7]'>
+    <div className='  min-h-full w-full bg-[#F5F3F7]'>
       <Navbar />
       <div className='flex  justify-between'>
         <div>
