@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 const Search = () => {
   //show flight a tıklanıldığında api den 20 adet flight listeler
+
   const handleShowFlight = async () => {
     try {
       const response = await axios.get('/api/public-flights/flights', {
@@ -43,7 +44,13 @@ const Search = () => {
         <SearchParam />
       </div>
       <div className='h-[40px] w-28 bg-[#4A1C97] text-white font-semibold rounded-lg ml-5 mt-5 items-center justify-center flex'>
-        <button onClick={handleShowFlight}>Show flights</button>
+        <button
+          onClick={() => {
+            handleShowFlight()
+          }}
+        >
+          Show flights
+        </button>
       </div>
     </div>
   )

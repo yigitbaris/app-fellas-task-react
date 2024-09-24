@@ -30,5 +30,16 @@ rewrite: (path) => path.replace(/^\/local-api/, ''), // This rewrites '/local-ap
 },
 },
 
+PROJE HAKKINDA BİLGİLER:
+
 projede genel itibari ile tailwindcss kullanılmıştır. lokal olarak tasarım değişimi için
 ilgili dosyaya gitmeniz gerekmektedir.
+
+arrival time seçilip gelen uçuşlar bu şekilde listelenebilir fakat api den gelen veriler günün saatlerine bağlı
+olduğu için çeşitli saatlerde bazı saat uçuşlar bulunmamaktadır. Bu yüzden de ekrana uçuş yok yazısı gelmektedir.
+
+book flight tuşuna basıldığında ise bi mesaj ile birlikte uçuşlarım sayfasına yönlendirme yapılmaktadır.
+burada uçuşlar listelenmektedir. saat ve durak bilgileri , uçuş adı ve uçağın varış ile kalkış noktaları gösterilmektedir.
+projede olmayan uçuş silme özelliğini uçuşun sağ kısmında bulunan ikon ile sağlayabilirsiniz.
+
+projenin backend kısmı mongodb , express ve node.js server ile sağlanmıştır.

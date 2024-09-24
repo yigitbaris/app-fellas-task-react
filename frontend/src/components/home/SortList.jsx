@@ -1,4 +1,19 @@
-const SortList = () => {
+import { useState } from 'react'
+
+const SortList = ({ setSortParams }) => {
+  const [selectedArrivalTime, setSelectedArrivalTime] = useState('')
+
+  const handleArrivalTimeChange = (event) => {
+    console.log('sort changed')
+    const value = event.target.value
+    setSelectedArrivalTime(value) // Update selected state
+
+    if (value === 'sevenToOne') {
+      setSortParams(1) // Set sortParams to 1 for '7:00 PM - 1:59 AM'
+    } else if (value === 'twoToSix') {
+      setSortParams(2) // Set sortParams to 2 for '2:00 AM - 6:59 PM'
+    }
+  }
   return (
     <div className=' flex flex-col gap-4 overflow-y-auto overflow-x-hidden  h-[600px] w-96 p-2 px-10'>
       <div className='mt-5'>
@@ -13,12 +28,26 @@ const SortList = () => {
       <div className='flex flex-col gap-2'>
         <div className='text-xl font-bold mb-3'>Arrival Time</div>
         <label className='text-lg font-semibold'>
-          <input type='radio' value='fiveToTwelve' className='mr-2' />
-          5:00 AM - 11:59 AM
+          <input
+            type='radio'
+            value='sevenToOne'
+            name='arrivalTime'
+            className='mr-2'
+            checked={selectedArrivalTime === 'sevenToOne'} // Bind state
+            onChange={handleArrivalTimeChange}
+          />
+          7:00 PM - 1:59 AM
         </label>
         <label className='text-lg font-semibold'>
-          <input type='radio' value='fiveToTwelve' className='mr-2' />
-          5:00 AM - 11:59 AM
+          <input
+            type='radio'
+            value='twoToSix'
+            name='arrivalTime'
+            className='mr-2'
+            checked={selectedArrivalTime === 'twoToSix'} // Bind state
+            onChange={handleArrivalTimeChange}
+          />
+          2:00 AM - 6:59 PM
         </label>
       </div>
       <div className='flex flex-col gap-2'>

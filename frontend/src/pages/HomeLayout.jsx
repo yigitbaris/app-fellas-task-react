@@ -8,6 +8,9 @@ import axios from 'axios'
 
 const HomeLayout = () => {
   const [flightData, setFlightData] = useState([])
+  const [filteredFlightData, setFilteredFlightData] = useState([])
+
+  const [sortParams, setSortParams] = useState(null)
 
   useEffect(() => {
     const apiCall = async () => {
@@ -33,6 +36,7 @@ const HomeLayout = () => {
         }))
 
         setFlightData(filteredFlights) // Update state after filtering the data
+        setFilteredFlightData(filteredFlights) // Set initial data
       } catch (error) {
         console.error('Error fetching flight data:', error.response?.data)
       }
@@ -41,6 +45,30 @@ const HomeLayout = () => {
     apiCall()
   }, []) // Empty dependency array to run the effect only once
 
+  useEffect(() => {
+    if (!sortParams) return
+
+    // Parse time from flightArrival and filter based on sortParams
+    const filterFlights = () => {
+      const filtered = flightData.filter((flight) => {
+        const flightTime = new Date(flight.flightArrival).getHours() // Extract hour from ISO date
+
+        if (sortParams === 1) {
+          // 7:00 PM - 1:59 AM
+          return flightTime >= 19 || flightTime <= 1
+        } else if (sortParams === 2) {
+          // 2:00 AM - 6:59 PM
+          return flightTime >= 2 && flightTime <= 18
+        }
+        return true
+      })
+
+      setFilteredFlightData(filtered)
+    }
+
+    filterFlights()
+  }, [sortParams, flightData]) // Runs when sortParams or flightData changes
+
   return (
     <div className=' h-full w-full bg-[#F5F3F7]'>
       <Navbar />
@@ -48,12 +76,19 @@ const HomeLayout = () => {
         <div>
           <Search />
           <div className='flex  items-center justify-between text-3xl'>
-            <div>
-              {/*props passing the child*/}
-              <FlightInfoContainer flightData={flightData} />
+            <div className='flex'>
+              {/* Conditionally render the message if no flights are available */}
+              {filteredFlightData.length === 0 ? (
+                <div className=' font-semibold ml-16 '>
+                  No flights available for the selected time range.
+                </div>
+              ) : (
+                // Pass filteredFlightData instead of flightData to display the filtered results
+                <FlightInfoContainer flightData={filteredFlightData} />
+              )}
             </div>
             <div>
-              <SortList />
+              <SortList setSortParams={setSortParams} />
             </div>
           </div>
         </div>
